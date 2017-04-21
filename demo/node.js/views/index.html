@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Upload Img</title>
+    <style>
+    input[type=button] {
+        margin: 10vh 10vw;
+        border: solid 1px #ff0000;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <input type="button" value="点我弹层" />
+    </div>
+    <script src="/widget/lib/jquery.min.js" type="text/javascript"></script>
+    <script src="/widget/lib/jroll.js" type="text/javascript"></script>
+    <script src="/widget/lib/LayerShow.js" type="text/javascript"></script>
+    <script src="/widget/lib/js_UploadImg.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(function() {
+        js_UploadImg.show({
+            useLibrary: false,
+            LayerShow: LayerShow,
+            JRoll: JRoll,
+            callback_error: function(err) {
+                alert(err);
+            },
+            callback_success: function() {
+                console.log("callback_success");
+            },
+            callback_upload: function(fp) {
+                // js_UploadImg.close();
+                alert(fp);
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>
