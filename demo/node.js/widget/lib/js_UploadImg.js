@@ -1,12 +1,12 @@
 /*
-	1.1.1
-	js图片上传组件
-	高京
-	2017-04-21
+    1.1.1
+    js图片上传组件
+    高京
+    2017-04-21
 
-	this = {
-		window_height_px: 窗口高度，setStyle时获取，不监听resize,
-		opt: {
+    this = {
+        window_height_px: 窗口高度，setStyle时获取，不监听resize,
+        opt: {
             z_index: 弹层的z - index。 内容层为z_index + 1。 默认400
             useLibrary: 使用"我的图库功能"，默认 true
             LayerShow: LayerShow对象，必须有且无默认值
@@ -16,17 +16,19 @@
             callback_success: 弹层成功回调,function,无默认
             callback_upload:  上传成功回调，function(filepath)，无默认
             callback_close: 关闭后回调，function，无默认
-		},
-		doms: {
-			wrapper: 最外盒,
-			tags_ul: 标签行,
-			tags_li_0: 标签-图片上传,
-			tags_li_1: 标签-我的图库,
-			input_file: 文件域,
-			button_upload_box: 上传按钮外盒
-			button_upload: 上传按钮
-		}
-	}
+        },
+        doms: {
+            wrapper: 最外盒,
+            tags_ul: 标签行,
+            tags_li_0: 标签-图片上传,
+            tags_li_1: 标签-我的图库,
+            input_file: 文件域,
+            preview: 预览盒,
+            button_upload_box: 上传按钮外盒,
+            button_upload: 上传按钮,
+            progress: 进度盒
+        }
+    }
 */
 
 var js_UploadImg = {
@@ -51,6 +53,9 @@ var js_UploadImg = {
         if (!that.doms) {
             that.create_dom.apply(that);
         }
+
+        // 设置样式
+        that.setStyle.apply(that);
 
         // 弹层
         var layershow = new that.opt.LayerShow();
@@ -80,6 +85,9 @@ var js_UploadImg = {
 
                 // 监听上传按钮
                 that.button_upload_Listener.apply(that);
+
+                // 监听文件域变换
+                that.input_file_Listener.apply(that);
 
                 if (typeof that.opt.callback_success === "function")
                     that.opt.callback_success();
@@ -123,6 +131,11 @@ var js_UploadImg = {
             .addClass("js_UploadImg_input_file")
             .appendTo(that.doms.wrapper);
 
+        // 预览盒
+        that.doms.preview = $(document.createElement("div"));
+        that.doms.preview.addClass("js_UploadImg_preview")
+            .appendTo(that.doms.wrapper);
+
         // 上传按钮外盒
         that.doms.button_upload_box = $(document.createElement("div"));
         that.doms.button_upload_box.addClass("js_UploadImg_button_upload_box")
@@ -134,8 +147,13 @@ var js_UploadImg = {
             .text("上 传")
             .appendTo(that.doms.button_upload_box);
 
-        // 继而设置样式
-        that.setStyle.apply(that);
+        // 进度条
+        that.doms.progress = $(document.createElement("progress"))
+            .attr({
+                "min": "0",
+                "max": "100"
+            })
+            .appendTo(that.doms.wrapper);
     },
     // 设置样式
     setStyle: function() {
@@ -181,19 +199,35 @@ var js_UploadImg = {
             "border": "dotted 1px #999"
         });
 
+        // 预览盒
+        that.doms.preview.css({
+            "width": "80%",
+            "height": that.window_height_px * 0.9 * 0.3 + "px",
+            "margin-top": that.window_height_px * 0.9 * 0.05 + "px",
+            "margin-left": "10%",
+            "display": "none"
+        });
+
         // 上传按钮外盒
         that.doms.button_upload_box.css({
-            "text-align": "center"
+            "text-align": "center",
+            "margin-top": that.window_height_px * 0.9 * 0.3 + "px"
         });
 
         // 上传按钮
         that.doms.button_upload.css({
             "width": "100px",
-            "margin-top": that.window_height_px * 0.9 * 0.3 + "px",
             "border": "solid 1px #999",
             "border-radius": "5px",
             "display": "inline-block",
             "cursor": "pointer"
+        });
+
+        // 进度条
+        that.doms.progress.css({
+            "display": "none",
+            "width": "80%",
+            "margin": that.window_height_px * 0.9 * 0.05 + "px 10%"
         });
     },
     // 设置悬停交互样式
@@ -221,17 +255,48 @@ var js_UploadImg = {
                 });
             });
     },
+    // 监听文件域的变换
+    input_file_Listener: function() {
+        var that = this;
+        if (typeof FileReader === "undefined")
+            return;
+        $(".js_UploadImg_input_file").unbind().on("change", function() {
+            var file = that.checkInputFile();
+            if (!file)
+                return;
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var image = new Image();
+                image.src = event.target.result;
+                $(".js_UploadImg_input_file").css({
+                    "margin-top": that.window_height_px * 0.9 * 0.1 + "px"
+                });
+                $(".js_UploadImg_preview").css({
+                    "background": "url('" + image.src + "') no-repeat center center",
+                    "background-size": "contain",
+                    "display": "block"
+                });
+                $(".js_UploadImg_button_upload_box").css({
+                    "margin-top": that.window_height_px * 0.9 * 0.15 + "px"
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+    },
     // 监听上传按钮的点击
     button_upload_Listener: function() {
         var that = this;
-        $(".js_UploadImg_button_upload").unbind()
+        $(".js_UploadImg_button_upload:not(.js_UploadImg_button_disabled)").unbind()
             .on("click", function() {
-                // 获得文件域的值
-                var input_file = $(".js_UploadImg_input_file");
-                var file = input_file[0].files[0] || "";
+                $(this).addClass("js_UploadImg_button_disabled")
+                    .css({
+                        "color": "#999",
+                        "cursor": "default"
+                    });
 
                 // 判断是否为图片
-                if (file === "" || !file.type.match(/^image\/.+/)) {
+                var file = that.checkInputFile();
+                if (!file) {
                     that.errorExecFunc("请选择图片");
                     return;
                 }
@@ -239,6 +304,18 @@ var js_UploadImg = {
                 // ajax执行上传
                 that.dealUploadImg.apply(that, [file]);
             });
+    },
+    // 验证文本域是否为图片。是的话返回file，否则返回null
+    checkInputFile: function() {
+
+        // 获得文件域的值
+        var input_file = $(".js_UploadImg_input_file");
+        var file = input_file[0].files[0] || "";
+
+        if (file === "" || !file.type.match(/^image\/.+/))
+            return null;
+        else
+            return file;
     },
     // ajax执行上传
     // file: 文本域提交的文件对象
@@ -254,7 +331,25 @@ var js_UploadImg = {
 
         var xhr = new XMLHttpRequest();
         xhr.open("post", "/deal_uploadImg");
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                var complete = event.loaded / event.total * 100;
+                $("progress").val(complete)
+                    .css({
+                        "display": "block"
+                    })
+                    .text(complete);
+            }
+        };
         xhr.onload = function() {
+            // that.doms.progress.css({
+            //     "display": "none"
+            // });
+            $(".js_UploadImg_button_upload").removeClass("js_UploadImg_button_disabled")
+                .css({
+                    "color": "#333",
+                    "cursor": "pointer"
+                });
             if (typeof that.opt.callback_upload === "function")
                 that.opt.callback_upload(xhr.response);
         };
