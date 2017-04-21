@@ -273,15 +273,7 @@ exports.xmlToJson = function(xmlString, CallBack_success) {
 exports.Error = function(res, err) {
     err.status = err.status || 404;
     res.status(err.status);
-    if(config.CacheData.Init!==null){
-        res.render('./err/404.html', {
-            "common": config.GetCommon(err.status, "", "", 1),
-            "err": (err.status) + ": " + err.message.replace(/[\n\r]/g, " ").replace(/\"/g, "\\\""),
-            "Advertise":config.CacheData.Advertise.list,
-            "Init":config.CacheData.Init.list,
-            "Info":config.CacheData.Info.list
-        });
-    }
+    res.render('./err/404.html');
 };
 
 

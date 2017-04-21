@@ -150,11 +150,10 @@ app.use(express.static(path.join(__dirname, ''), {
 }));
 
 // routes
+var index = require('./routes/index.js');
 var p404 = require('./routes/404.js'); // 404
-var captcha = require('./routes/captcha.js'); // 验证码
 
-app.use('/captcha', captcha);
-
+app.use(index);
 app.use(p404); // 404 || 500
 
 module.exports = app;
