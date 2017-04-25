@@ -1,0 +1,22 @@
+{
+  "name": "topunet-js-uploadimg",
+  "version": "1.1.1",
+  "description": "js图片上传弹层组件",
+  "main": "js_JS-UploadImg.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TopuNet/JS-UploadImg.git"
+  },
+  "keywords": [
+    "topu.net"
+  ],
+  "author": "Topu.net",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TopuNet/JS-UploadImg/issues"
+  },
+  "homepage": "https://github.com/TopuNet/JS-UploadImg#readme"
+}
