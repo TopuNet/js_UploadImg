@@ -18,16 +18,17 @@
         <input type="button" value="点我弹层" />
     </div>
     <script src="/widget/lib/jquery.min.js" type="text/javascript"></script>
-    <script src="/widget/lib/jroll.js" type="text/javascript"></script>
     <script src="/widget/lib/LayerShow.js" type="text/javascript"></script>
+    <script src="/widget/lib/WaterFall.js" type="text/javascript"></script>
     <script src="/widget/lib/js_UploadImg.js" type="text/javascript"></script>
     <script type="text/javascript">
     $(function() {
         $("input").unbind().on("click", function() {
             js_UploadImg.show({
                 useLibrary: false,
+                Library_ajaxUrl: "/getLibrary",
                 LayerShow: LayerShow,
-                JRoll: JRoll,
+                WaterFall: WaterFall,
                 callback_error: function(err) {
                     alert(err);
                 },

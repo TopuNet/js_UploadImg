@@ -131,13 +131,15 @@ var WaterFall = {
             that.valid_toInsert.apply(that);
         };
 
-        this.paras.listener_scroll_obj.unbind("scroll", scroll_listener_func);
+
+        that.paras.listener_scroll_obj.unbind("scroll", scroll_listener_func);
 
         // 是否有scroll监听
         if (!that.window_scroll_listen)
             return;
 
-        this.paras.listener_scroll_obj.bind("scroll", scroll_listener_func);
+
+        that.paras.listener_scroll_obj.bind("scroll", scroll_listener_func);
     },
 
     // 监听窗口resize
@@ -258,6 +260,7 @@ var WaterFall = {
                 var _obj = that.paras.datalist[that.insert_n];
                 var _str = that.paras.data_template;
                 var reg;
+
                 for (var key in _obj) {
                     reg = new RegExp("\\{\\$data-" + key + "\\}", "g");
                     // eval("reg = /\\{\\$data-" + key + "\\}/g;");
