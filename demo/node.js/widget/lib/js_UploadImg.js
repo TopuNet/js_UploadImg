@@ -1,5 +1,5 @@
 /*
-    1.1.1
+    1.1.2
     js图片上传弹层组件
     高京
     2017-04-21
@@ -523,7 +523,13 @@ var js_UploadImg = {
                         url: that.opt.Library_ajaxUrl,
                         type: "get",
                         success: function(result) {
-                            that.setLibraryPics.apply(that, [result]);
+                            var datalist;
+                            try {
+                                datalist = JSON.parse(result);
+                            } catch(e) {
+                                datalist = [];
+                            }
+                            that.setLibraryPics.apply(that, [datalist]);
                         }
                     });
 
@@ -555,7 +561,7 @@ var js_UploadImg = {
             item_min: 1, // 最小列数，默认1。
             ps: 9999999, // 每页显示数量。默认50（5×10）
             data_template: dataTemplate, // 项目单元模板字符串。不传此参数，则项目单元直接装载datalist；传此参数，则datalist需要传入json对象，按键名替换模板中的{$data-key}。
-            datalist: JSON.parse(dataList), // 项目单元内容。支持字符串数组或JSON对象。JSON对象需配合data_template使用
+            datalist: dataList, // 项目单元内容。支持字符串数组或JSON对象。JSON对象需配合data_template使用
             resize_window_resize_column_number: false, // 改变窗口大小时，重新计算列宽度（清空所有项目单元并重新加载，耗资源），默认false
             // callback_none_success: function() { // 0数据行成功回调（没有数据）。无默认值
             // }
