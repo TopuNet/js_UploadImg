@@ -12,13 +12,13 @@
 原生引用：
 
         1. 页面底端引用最新版 /inc/Jquery.min.js#1.x.x 或 zepto.min.js
-        2. 后引用/jq/LayerShow.js
-        3. 后如需要需要“我的图库”功能，则引用/jq/WaterFall.js
+        2. 后引用/jq/LayerShow.js#2.2+
+        3. 后如需要需要“我的图库”功能，则引用/jq/WaterFall.js#1.1.7+
         4. 后引用 /jq/js_UploadImg.js
 
 requireJS引用：
         
-        1. 依赖LayerShow.js、WaterFall.js（如使用“我的图库”功能）、js_UploadImg.js和(jquery.min.js#1.x 或 zepto.min.js)，成功后返回对象js_UploadImg
+        1. 依赖LayerShow.js#2.2+、WaterFall.js#1.1.7+（如使用“我的图库”功能）、js_UploadImg.js和(jquery.min.js#1.x 或 zepto.min.js)，成功后返回对象js_UploadImg
 
 
 功能配置及启用：
