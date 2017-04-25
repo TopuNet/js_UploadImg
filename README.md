@@ -4,7 +4,7 @@
 文件结构：
 -------------
 
-		1. js_UploadImg.js 放入项目文件夹jq（原生规范）或widget/lib（AMD规范）中
+        js_UploadImg.js 放入项目文件夹jq（原生规范）或widget/lib（AMD规范）中
 
 页面引用：
 -------------
@@ -26,7 +26,7 @@ requireJS引用：
 
 显示：
 
-		var js_UploadImg_para = {
+        var js_UploadImg_para = {
             z_index: 弹层的z - index。 内容层为z_index + 1。 默认400
             Upload_ajaxUrl: 图片上传的提交路径，无默认
             useLibrary: 使用"我的图库"功能，默认 true
