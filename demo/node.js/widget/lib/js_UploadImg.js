@@ -1,6 +1,6 @@
 /*
     1.1.1
-    js图片上传组件
+    js图片上传弹层组件
     高京
     2017-04-21
 
@@ -10,10 +10,9 @@
         opt: {
             z_index: 弹层的z - index。 内容层为z_index + 1。 默认400
             Upload_ajaxUrl: 图片上传的提交路径，无默认
-            useLibrary: 使用"我的图库功能"，默认 true
+            useLibrary: 使用"我的图库"功能，默认 true
             Library_ajaxUrl: useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
             LayerShow: LayerShow对象，必须有且无默认值
-            JRoll: JRoll对象，必须有且无默认值
             WaterFall: WaterFall对象，useLibrary=true时必须有且无默认值
             callback_before: 执行前回调，function，无默认
             callback_error: 报错时回调，function(err)，无默认
@@ -50,10 +49,9 @@ var js_UploadImg = {
         var opt_default = {
             z_index: 400, // 弹层的z - index。 内容层为z_index + 1。 默认400 
             Upload_ajaxUrl: null, // 图片上传的提交路径，无默认  /deal_uploadImg
-            useLibrary: true, // 使用"我的图库功能"，默认 true
+            useLibrary: true, // 使用"我的图库"功能，默认 true
             Library_ajaxUrl: null, // useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
             LayerShow: null, // LayerShow对象，必须有且无默认值
-            JRoll: null, // JRoll对象，必须有且无默认值
             WaterFall: null, // WaterFall对象，useLibrary=true时必须有且无默认值
             callback_before: null, // 执行前回调，function，无默认
             callback_error: null, // 报错时回调，function(err)，无默认
