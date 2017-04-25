@@ -25,6 +25,7 @@
     $(function() {
         $("input").unbind().on("click", function() {
             js_UploadImg.show({
+                Upload_ajaxUrl: "/deal_uploadImg",
                 useLibrary: false,
                 Library_ajaxUrl: "/getLibrary",
                 LayerShow: LayerShow,
@@ -36,7 +37,6 @@
                     console.log("callback_success");
                 },
                 callback_upload: function(fp) {
-                    // js_UploadImg.close();
                     alert(fp);
                 }
             });
