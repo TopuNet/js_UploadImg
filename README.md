@@ -28,7 +28,7 @@ requireJS引用：
 
         var js_UploadImg_para = {
             z_index: 弹层的z - index。 内容层为z_index + 1。 默认400
-            Upload_ajaxUrl: 图片上传的提交路径，无默认
+            Upload_ajaxUrl: 图片上传的提交路径，无默认。表单是以mutipart/form-data的方式提交的，文件域的name为"img1"
             useLibrary: 使用"我的图库"功能，默认 true
             Library_ajaxUrl: useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
             LayerShow: LayerShow对象，必须有且无默认值
