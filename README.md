@@ -1,4 +1,4 @@
-# js图片上传弹层组件 v1.1.2
+# js图片上传弹层组件 v1.1.3
 ### 安装：npm install topunet-js-uploadimg
 
 文件结构：
@@ -28,6 +28,7 @@ requireJS引用：
 
         var js_UploadImg_para = {
             z_index: 弹层的z - index。 内容层为z_index + 1。 默认400
+            input_file_width_percent: 文件域的宽度（百分比）。默认40————pc端合适
             Upload_ajaxUrl: 图片上传的提交路径，无默认。表单是以mutipart/form-data的方式提交的，文件域的name为"img1"
             useLibrary: 使用"我的图库"功能，默认 true
             Library_ajaxUrl: useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
@@ -59,6 +60,10 @@ requireJS引用：
 
 更新记录：
 --------------
+v1.1.3
+
+        增加文本域宽度的设置参数。pc端可以默认（默认40%，还是很合适的）
+
 v1.1.2
 
         增加获取我的图库列表时，返回对象不是JSON对象的过滤

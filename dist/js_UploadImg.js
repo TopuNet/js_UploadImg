@@ -1,5 +1,5 @@
 /*
-    1.1.2
+    1.1.3
     js图片上传弹层组件
     高京
     2017-04-21
@@ -9,6 +9,7 @@
         layershow: LayerShow实例
         opt: {
             z_index: 弹层的z - index。 内容层为z_index + 1。 默认400
+            input_file_width_percent: 文件域的宽度（百分比）。默认40————pc端合适
             Upload_ajaxUrl: 图片上传的提交路径，无默认
             useLibrary: 使用"我的图库"功能，默认 true
             Library_ajaxUrl: useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
@@ -48,6 +49,7 @@ var js_UploadImg = {
 
         var opt_default = {
             z_index: 400, // 弹层的z - index。 内容层为z_index + 1。 默认400 
+            input_file_width_percent: 40, // 文件域的宽度（百分比）。默认40————pc端合适
             Upload_ajaxUrl: null, // 图片上传的提交路径，无默认  /deal_uploadImg
             useLibrary: true, // 使用"我的图库"功能，默认 true
             Library_ajaxUrl: null, // useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
@@ -248,11 +250,13 @@ var js_UploadImg = {
         });
 
         // 文本域
+        var _margin_left = 50 - that.opt.input_file_width_percent / 2;
         that.doms.input_file.css({
-            "width": "40%",
+            "width": that.opt.input_file_width_percent + "%",
             "margin-top": that.window_height_px * 0.9 * 0.3 + "px",
-            "margin-left": "30%",
+            "margin-left": _margin_left + "%",
             "padding": "5px",
+            "box-sizing": "border-box",
             "border": "dotted 1px #999"
         });
 
@@ -262,6 +266,7 @@ var js_UploadImg = {
             "height": that.window_height_px * 0.9 * 0.3 + "px",
             "margin-top": that.window_height_px * 0.9 * 0.05 + "px",
             "margin-left": "10%",
+            "box-sizing": "border-box",
             "display": "none"
         });
 
@@ -526,7 +531,7 @@ var js_UploadImg = {
                             var datalist;
                             try {
                                 datalist = JSON.parse(result);
-                            } catch(e) {
+                            } catch (e) {
                                 datalist = [];
                             }
                             that.setLibraryPics.apply(that, [datalist]);
