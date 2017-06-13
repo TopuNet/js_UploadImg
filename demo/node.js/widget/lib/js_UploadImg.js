@@ -1,5 +1,5 @@
 /*
-    1.1.3
+    1.1.4
     js图片上传弹层组件
     高京
     2017-04-21
@@ -65,7 +65,7 @@ var js_UploadImg = {
 
         // 通过对JSON的支持，判断浏览器是否为ie7
         if (typeof JSON === "undefined") {
-            that.errorExecFunc("您的浏览器版本过低，请使用最新版chrome、safari、firefox、360极速或ie10以上等主流浏览器访问");
+            that.errorExecFunc.apply(that, ["您的浏览器版本过低，请使用最新版chrome、safari、firefox、360极速或ie10以上等主流浏览器访问"]);
             return;
         }
 
@@ -295,6 +295,9 @@ var js_UploadImg = {
     // 设置悬停交互样式
     setHoverStyle: function() {
 
+        if (!$("body").hover)
+            return;
+
         // 标签
         $(".js_UploadImg_tags_li:not(.js_UploadImg_tags_now)").unbind()
             .hover(function() {
@@ -359,7 +362,7 @@ var js_UploadImg = {
                 // 判断是否为图片
                 var file = that.checkInputFile();
                 if (!file) {
-                    that.errorExecFunc("请选择图片");
+                    that.errorExecFunc.apply(that, ["请选择图片"]);
                     return;
                 }
 
@@ -376,7 +379,7 @@ var js_UploadImg = {
 
         // 判断浏览器是否支持.files
         if (!input_file[0].files) {
-            that.errorExecFunc("您的浏览器不支持此操作，请使用最新版chrome、safari、firefox、360极速或ie10以上等主流浏览器访问");
+            that.errorExecFunc.apply(that, ["您的浏览器不支持此操作，请使用最新版chrome、safari、firefox、360极速或ie10以上等主流浏览器访问"]);
             return;
         }
 
@@ -393,7 +396,7 @@ var js_UploadImg = {
     dealUploadImg: function(file) {
         var that = this;
         if (!window.FormData) {
-            that.errorExecFunc("您的浏览器不支持此操作，请使用最新版chrome、safari、firefox、360极速或ie10以上等主流浏览器访问");
+            that.errorExecFunc.apply(that, ["您的浏览器不支持此操作，请使用最新版chrome、safari、firefox、360极速或ie10以上等主流浏览器访问"]);
             return;
         }
 
@@ -608,6 +611,7 @@ var js_UploadImg = {
     // 执行报错回调
     // err: 报错信息
     errorExecFunc: function(err) {
+        // console.log(err);
         var that = this;
         if (that.opt.callback_error)
             that.opt.callback_error(err);
