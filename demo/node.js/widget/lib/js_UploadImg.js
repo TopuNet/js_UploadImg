@@ -1,5 +1,5 @@
 /*
-    1.1.4
+    1.2.1
     js图片上传弹层组件
     高京
     2017-04-21
@@ -15,6 +15,12 @@
             Library_ajaxUrl: useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
             LayerShow: LayerShow对象，必须有且无默认值
             WaterFall: WaterFall对象，useLibrary=true时必须有且无默认值
+            WaterFall_item_width: 200, // 项目单元宽度。不包含列间距。默认200
+            WaterFall_line_top: 20, // 行 上间距。默认20
+            WaterFall_line_first_top: 10, // 第一行 上间距。默认10
+            WaterFall_column_left: 10, // 列 左间距。默认10
+            WaterFall_column_first_left: 10, // 第一列 左间距。默认10
+            WaterFall_unit: "px", // 距离单位。"px"||"vw"。默认"px"
             callback_before: 执行前回调，function，无默认
             callback_error: 报错时回调，function(err)，无默认
             callback_success: 弹层成功回调,function,无默认
@@ -55,6 +61,12 @@ var js_UploadImg = {
             Library_ajaxUrl: null, // useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
             LayerShow: null, // LayerShow对象，必须有且无默认值
             WaterFall: null, // WaterFall对象，useLibrary=true时必须有且无默认值
+            WaterFall_item_width: 200, // 项目单元宽度。不包含列间距。默认200
+            WaterFall_line_top: 20, // 行 上间距。默认20
+            WaterFall_line_first_top: 10, // 第一行 上间距。默认10
+            WaterFall_column_left: 10, // 列 左间距。默认10
+            WaterFall_column_first_left: 10, // 第一列 左间距。默认10
+            WaterFall_unit: "px", // 距离单位。"px"||"vw"。默认"px"
             callback_before: null, // 执行前回调，function，无默认
             callback_error: null, // 报错时回调，function(err)，无默认
             callback_success: null, // 弹层成功回调，function，无默认
@@ -560,12 +572,12 @@ var js_UploadImg = {
             listener_scroll_selector: ".js_UploadImg_content_li_1", // 监听滚动的选择器。默认window，移动端使用mobile_stop_moved模块时，可以设置为最外盒
             box_selector: ".js_UploadImg_content_li_1_list", // 项目单元外盒选择器。无默认值。后自动设置行内元素样式 position: relative;
             item_selector: ".js_UploadImg_content_li_1_detail", // 项目单元选择器。必须存在于box内。无默认值
-            item_width: 200, // 项目单元宽度。不包含列间距。无默认值
-            line_top: 20, // 行 上间距。默认0
-            line_first_top: 10, // 第一行 上间距。默认0
-            column_left: 10, // 列 左间距。默认0
-            column_first_left: 10, // 第一列 左间距。默认0
-            unit: "px", // 宽高单位 "px|vw", 默认px。且重置窗口大小时，vw不重新计算对应的px
+            item_width: that.opt.WaterFall_item_width, // 项目单元宽度。不包含列间距。无默认值
+            line_top: that.opt.WaterFall_line_top, // 行 上间距。默认0
+            line_first_top: that.opt.WaterFall_line_first_top, // 第一行 上间距。默认0
+            column_left: that.opt.WaterFall_column_left, // 列 左间距。默认0
+            column_first_left: that.opt.WaterFall_column_first_left, // 第一列 左间距。默认0
+            unit: that.opt.WaterFall_unit, // 宽高单位 "px|vw", 默认px。且重置窗口大小时，vw不重新计算对应的px
             item_min: 1, // 最小列数，默认1。
             ps: 9999999, // 每页显示数量。默认50（5×10）
             data_template: dataTemplate, // 项目单元模板字符串。不传此参数，则项目单元直接装载datalist；传此参数，则datalist需要传入json对象，按键名替换模板中的{$data-key}。
@@ -577,15 +589,17 @@ var js_UploadImg = {
             //     console.log("成功回调。无默认值");
             // }
             callback_item_success: function(_item_obj) { // 项目单元成功插入回调 _item_obj: 新插入的单元对象。无默认值
-                _item_obj.hover(function() {
-                    $(this).css({
-                        "border": "dashed 1px #999"
+                if (_item_obj.hover) {
+                    _item_obj.hover(function() {
+                        $(this).css({
+                            "border": "dashed 1px #999"
+                        });
+                    }, function() {
+                        $(this).css({
+                            "border": "solid 1px #fff"
+                        });
                     });
-                }, function() {
-                    $(this).css({
-                        "border": "solid 1px #fff"
-                    });
-                });
+                }
                 _item_obj.unbind("click").on("click", function() {
                     if (that.opt.callback_upload)
                         that.opt.callback_upload($(this).find("img").attr("src"));
@@ -597,7 +611,7 @@ var js_UploadImg = {
 
         if (that.opt.WaterFall.paras) {
             that.opt.WaterFall.insert_items_list({
-                datalist: that.opt.WaterFall.paras.datalist,
+                datalist: dataList,
                 clear_box: true // 是否清空已有项目单元
             });
         } else

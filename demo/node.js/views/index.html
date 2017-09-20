@@ -25,12 +25,18 @@
     $(function() {
         $("input").unbind().on("click", function() {
             js_UploadImg.show({
-                // input_file_width_percent: 80,
+                input_file_width_percent: 80,
                 Upload_ajaxUrl: "/deal_uploadImg",
                 useLibrary: true,
                 Library_ajaxUrl: "/getLibrary",
                 LayerShow: LayerShow,
                 WaterFall: WaterFall,
+                WaterFall_item_width: 40, // 项目单元宽度。不包含列间距。默认200
+                WaterFall_line_top: 3, // 行 上间距。默认20
+                WaterFall_line_first_top: 1, // 第一行 上间距。默认10
+                WaterFall_column_left: 3, // 列 左间距。默认10
+                WaterFall_column_first_left: 1, // 第一列 左间距。默认10
+                WaterFall_unit: "vw", // 距离单位。"px"||"vw"。默认"px"
                 callback_error: function(err) {
                     alert(err);
                 },

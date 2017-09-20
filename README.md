@@ -1,4 +1,4 @@
-# js图片上传弹层组件 v1.1.4
+# js图片上传弹层组件 v1.2.1
 ### 安装：npm install topunet-js-uploadimg
 
 文件结构：
@@ -34,6 +34,12 @@ requireJS引用：
             Library_ajaxUrl: useLibrary=true 时有效，获取我的图库的ajax地址。返回内容格式：[{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"},{imgPath:"/UploadFile/xxx/yyy.jpg",imgSummary:"yyy"}]
             LayerShow: LayerShow对象，必须有且无默认值
             WaterFall: WaterFall对象，useLibrary=true时必须有且无默认值
+            WaterFall_item_width: 200, // 项目单元宽度。不包含列间距。默认200
+            WaterFall_line_top: 20, // 行 上间距。默认20
+            WaterFall_line_first_top: 10, // 第一行 上间距。默认10
+            WaterFall_column_left: 10, // 列 左间距。默认10
+            WaterFall_column_first_left: 10, // 第一列 左间距。默认10
+            WaterFall_unit: "px", // 距离单位。"px"||"vw"。默认"px"
             callback_before: 执行前回调，function，无默认
             callback_error: 报错时回调，function(err)，无默认
             callback_success: 弹层成功回调,function,无默认
@@ -55,11 +61,23 @@ requireJS引用：
 
         2. ie8、9不支持"图片上传"，支持"我的图库"。
 
-        3. 时间关系，移动端还没测试。
-
 
 更新记录：
 --------------
+v1.2.1
+
+        增加参数：
+
+            WaterFall_item_width: 200, // 项目单元宽度。不包含列间距。默认200
+            WaterFall_line_top: 20, // 行 上间距。默认20
+            WaterFall_line_first_top: 10, // 第一行 上间距。默认10
+            WaterFall_column_left: 10, // 列 左间距。默认10
+            WaterFall_column_first_left: 10, // 第一列 左间距。默认10
+            WaterFall_unit: "px", // 距离单位。"px"||"vw"。默认"px"
+
+        解决移动端我的图库显示问题。
+        经项目考验，移动端算正式ok了。
+
 v1.1.4
 
         修改移动端zepto hover()报错的bug
