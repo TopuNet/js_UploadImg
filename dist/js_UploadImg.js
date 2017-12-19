@@ -1,5 +1,5 @@
 /*
-    1.2.1
+    1.2.3
     js图片上传弹层组件
     高京
     2017-04-21
@@ -320,20 +320,6 @@ var js_UploadImg = {
             }, function() {
                 $(this).css("color", "#999");
             });
-
-        // 上传
-        $(".js_UploadImg_button_upload").unbind()
-            .hover(function() {
-                $(this).css({
-                    "color": "#fff",
-                    "background-color": "#999"
-                });
-            }, function() {
-                $(this).css({
-                    "color": "#333",
-                    "background-color": ""
-                });
-            });
     },
     // 监听文件域的变换
     input_file_Listener: function() {
@@ -363,7 +349,7 @@ var js_UploadImg = {
             reader.readAsDataURL(file);
         });
     },
-    // 监听上传按钮的点击
+    // 监听上传按钮
     button_upload_Listener: function() {
         var that = this;
         $(".js_UploadImg_button_upload:not(.js_UploadImg_button_disabled)").unbind()
@@ -383,7 +369,18 @@ var js_UploadImg = {
 
                 // ajax执行上传
                 that.dealUploadImg.apply(that, [file]);
-            });
+            })
+            .hover(function() {
+                $(this).css({
+                    "color": "#fff",
+                    "background-color": "#999"
+                });
+            }, function() {
+                $(this).css({
+                    "color": "#333",
+                    "background-color": ""
+                });
+            });;
     },
     // 验证文本域是否为图片。是的话返回file，否则返回null
     checkInputFile: function() {
@@ -483,6 +480,7 @@ var js_UploadImg = {
                     content_ul.animate({
                         "left": "0px"
                     }, 300);
+
                     break;
                 case 1: // 我的图库
 
@@ -617,7 +615,7 @@ var js_UploadImg = {
                 _item_obj.unbind("click").on("click", function() {
                     if (that.opt.callback_upload)
                         that.opt.callback_upload($(this).find("img").attr("src"));
-                    that.close();
+                    that.layershow.close();
                 });
             }
         };
