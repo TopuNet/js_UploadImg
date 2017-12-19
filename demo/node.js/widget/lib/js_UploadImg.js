@@ -128,7 +128,9 @@ var js_UploadImg = {
                 if (typeof that.opt.callback_success === "function")
                     that.opt.callback_success();
             }, // 弹层成功———— 此时只加载了第一章图片———— 回调function(li)。 li为showKind = 1 时加载的第一且是唯一一张图片的li盒。 如关闭loading层。 无默认
-            callback_close: that.opt.callback_close // 关闭弹层后的回调。 没想好如什么。 无默认
+            callback_close: function() {
+                that.close.apply(that);
+            } // 关闭弹层后的回调。 没想好如什么。 无默认
         };
         that.layershow.show(_opt);
     },
@@ -311,7 +313,8 @@ var js_UploadImg = {
             return;
 
         // 标签
-        $(".js_UploadImg_tags_li:not(.js_UploadImg_tags_now)").unbind()
+        $(".js_UploadImg_tags_li").unbind();
+        $(".js_UploadImg_tags_li:not(.js_UploadImg_tags_now)")
             .hover(function() {
                 $(this).css("color", "#000");
             }, function() {
@@ -437,9 +440,11 @@ var js_UploadImg = {
                     "cursor": "pointer"
                 });
             if (typeof that.opt.callback_upload === "function") {
-                that.close();
 
                 that.opt.callback_upload(xhr.response);
+
+                that.layershow.close();
+
             }
         };
         xhr.send(formData);
@@ -447,23 +452,24 @@ var js_UploadImg = {
     // 监听tag切换
     tags_Listener: function() {
         var that = this;
-        $(".js_UploadImg_tags_li:not(.js_UploadImg_tags_now)").unbind().on("click", function() {
+        $(".js_UploadImg_tags_li:not(.js_UploadImg_tags_now)").one("click", function() {
 
             // 切换tag样式
-            $(".js_UploadImg_tags_now").removeClass("js_UploadImg_tags_now");
-            $(this).addClass("js_UploadImg_tags_now");
+            $(".js_UploadImg_tags_li").toggleClass("js_UploadImg_tags_now");
+            // $(this).addClass("js_UploadImg_tags_now");
             $(".js_UploadImg_tags_li").css({
                 "font-weight": "normal",
                 "background-color": "",
                 "color": "#999",
                 "cursor": "pointer"
             });
-            $(".js_UploadImg_tags_now").css({
+            $(this).css({
                 "font-weight": "bold",
                 "background-color": "#fafafa",
                 "color": "#000",
                 "cursor": "default"
             });
+            that.setHoverStyle.apply(that);
             that.tags_Listener.apply(that);
 
             // 获得当前点击li的序号
@@ -539,19 +545,25 @@ var js_UploadImg = {
                     });
 
                     // 获取瀑布流图片并装载
-                    $.ajax({
-                        url: that.opt.Library_ajaxUrl,
-                        type: "get",
-                        success: function(result) {
-                            var datalist;
-                            try {
-                                datalist = JSON.parse(result);
-                            } catch (e) {
-                                datalist = [];
+                    if (that.datalist)
+                        that.setLibraryPics.apply(that, [that.datalist]);
+                    else {
+                        $.ajax({
+                            url: that.opt.Library_ajaxUrl,
+                            type: "get",
+                            success: function(result) {
+                                var datalist;
+                                try {
+                                    datalist = JSON.parse(result);
+                                } catch (e) {
+                                    datalist = [];
+                                }
+                                // console.log(datalist);
+                                that.datalist = datalist;
+                                that.setLibraryPics.apply(that, [that.datalist]);
                             }
-                            that.setLibraryPics.apply(that, [datalist]);
-                        }
-                    });
+                        });
+                    }
 
                     // 移动内容盒，显示我的图库
                     content_ul.animate({
@@ -566,6 +578,8 @@ var js_UploadImg = {
     // dataList: 项目单元内容。
     setLibraryPics: function(dataList) {
         var that = this;
+
+        // console.log(dataList);
 
         var dataTemplate = "<div class=\"js_UploadImg_content_li_1_detail\" style=\"border:solid 1px #fff; cursor:pointer; padding:2px;\"><img src=\"{$data-imgPath}\" /><p style=\"margin:0;padding:0;text-align:center; line-height:20px;\">{$data-imgSummary}</p></div>";
         var WaterFall_para = {
@@ -608,6 +622,7 @@ var js_UploadImg = {
             }
         };
 
+        // console.log(that.opt.WaterFall.paras);
 
         if (that.opt.WaterFall.paras) {
             that.opt.WaterFall.insert_items_list({
@@ -620,7 +635,7 @@ var js_UploadImg = {
     // 关闭弹层
     close: function() {
         var that = this;
-        that.layershow.close();
+        that.datalist = null;
     },
     // 执行报错回调
     // err: 报错信息

@@ -1,6 +1,6 @@
 {
   "name": "topunet-js-uploadimg",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "js图片上传弹层组件",
   "main": "js_JS-UploadImg.js",
   "scripts": {
